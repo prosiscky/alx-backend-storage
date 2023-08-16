@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
-'''Task 10's module.
+'''Task 11's module.
 '''
 
 
-def update_topics(mongo_collection, name, topics):
-    '''Changes all topics of a collection's document based on the name.
+def schools_by_topic(mongo_collection, topic):
+    '''Returns the list of school having a specific topic.
     '''
-    mongo_collection.update_many(
-        {'name': name},
-        {'$set': {'topics': topics}}
-    )
+    topic_filter = {
+        'topics': {
+            '$elemMatch': {
+                '$eq': topic,
+            },
+        },
+    }
+    return [doc for doc in mongo_collection.find(topic_filter)]
